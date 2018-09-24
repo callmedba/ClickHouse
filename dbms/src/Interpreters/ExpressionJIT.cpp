@@ -713,7 +713,7 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
                     continue;
             }
 
-            std::shared_ptr<LLVMFunction> fn;
+            std::shared_ptr<USE_EMBEDDED_COMPILER> fn;
             if (compilation_cache)
             {
                 /// Lock here, to be sure, that all functions will be compiled
@@ -740,6 +740,7 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
             }
 
             actions[i].function_base = fn;
+            actions[i].function = fn->prepare({}, 0); /// Arguments are ignored for LLVMPreparedFunction.
             actions[i].argument_names = fn->getArgumentNames();
             actions[i].is_function_compiled = true;
 
