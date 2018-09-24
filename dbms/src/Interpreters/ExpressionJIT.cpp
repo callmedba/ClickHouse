@@ -740,7 +740,6 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
             }
 
             actions[i].function_base = fn;
-            actions[i].function = fn->prepare({}, {}, 0); /// Arguments are ignored for LLVMPreparedFunction.
             actions[i].argument_names = fn->getArgumentNames();
             actions[i].is_function_compiled = true;
 
@@ -758,6 +757,14 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
         std::lock_guard<std::mutex> lock(mutex);
         size_t used_memory = context->compileAllFunctionsToNativeCode();
         ProfileEvents::increment(ProfileEvents::CompileExpressionsBytes, used_memory);
+    }
+
+    for (size_t i = 0; i < actions.size(); ++i)
+    {
+        if (actions[i].type == ExpressionAction::APPLY_FUNCTION && actions[i].is_function_compiled)
+        {
+            actions[i].function = actions[i].function_base->prepare({}, {}, 0); /// Arguments are not used for LLVMFunction.
+        }
     }
 }
 
