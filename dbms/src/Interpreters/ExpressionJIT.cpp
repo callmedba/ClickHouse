@@ -713,7 +713,7 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
                     continue;
             }
 
-            std::shared_ptr<USE_EMBEDDED_COMPILER> fn;
+            std::shared_ptr<LLVMFunction> fn;
             if (compilation_cache)
             {
                 /// Lock here, to be sure, that all functions will be compiled
