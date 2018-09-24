@@ -740,7 +740,7 @@ void compileFunctions(ExpressionActions::Actions & actions, const Names & output
             }
 
             actions[i].function_base = fn;
-            actions[i].function = fn->prepare({}, 0); /// Arguments are ignored for LLVMPreparedFunction.
+            actions[i].function = fn->prepare({}, {}, 0); /// Arguments are ignored for LLVMPreparedFunction.
             actions[i].argument_names = fn->getArgumentNames();
             actions[i].is_function_compiled = true;
 
