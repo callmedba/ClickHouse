@@ -203,7 +203,7 @@ void ExpressionAction::prepare(Block & sample_block, const Settings & settings)
             sample_block.insert({nullptr, result_type, result_name});
             function = function_base->prepare(sample_block, arguments, result_position);
 
-            if (auto * prepared_function = typeid_cast<PreparedFunctionImpl *>(function.get()))
+            if (auto * prepared_function = dynamic_cast<PreparedFunctionImpl *>(function.get()))
                 prepared_function->createLowCardinalityResultCache(settings.max_threads);
 
             /// If all arguments are constants, and function is suitable to be executed in 'prepare' stage - execute function.
